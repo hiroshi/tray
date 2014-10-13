@@ -1,0 +1,20 @@
+{
+  "name": "tray",
+  "version": "0.0.0",
+  "homepage": "https://github.com/hiroshi/tray",
+  "authors": [
+    "Hiroshi Saito <hiroshi3110@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.11.2"
+  }
+}
