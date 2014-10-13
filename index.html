@@ -1,10 +1,44 @@
 <html>
 <head>
+  <link href="app/components/picnic/releases/latest.min.css" rel="stylesheet" type="text/css">
+  <script src="app/components/react/react-with-addons.min.js" type="text/javascript"></script>
 </head>
 <body>
 
-<button onclick="requestSafariPush();">zeropush</button>
+<button onclick="dropboxLogin();">dropbox login</button>
+
+<script src="https://www.dropbox.com/static/api/dropbox-datastores-1.2-latest.js" type="text/javascript"></script>
+<script src="./env.js"></script>
 <script src="zeropush.js"></script>
+<script>
+(function () {
+   var client = new Dropbox.Client({key: DROPBOX_APP_KEY});
+   // Try to finish OAuth authorization.
+   client.authenticate({interactive: false}, function (error) {
+     if (error) {
+       alert('Authentication error: ' + error);
+     }
+   });
+   if (client.isAuthenticated()) {
+     // Client is authenticated. Display UI.
+     console.log("dropbox authenticated.")
+     requestSafariPush(function(deviceToken) {
+       var xhr = new XMLHttpRequest();
+       var payload = JSON.stringify({uid: client.dropboxUid(), deviceToken: deviceToken, accessToken: client.credentials().token});
+       console.log("payload: " + payload);
+       xhr.open('POST', TRAY_REGISTER_URL, true);
+       xhr.setRequestHeader('X-PINGOTHER', 'pingpong');
+       //xhr.setRequestHeader('Content-Type', "application/json");
+       xhr.send(payload);
+     });
+   }
+   window.dropboxLogin = function() {
+     client.authenticate();
+   };
+})();
+</script>
+
+<!--<button onclick="requestSafariPush();">zeropush</button>-->
 <!--<script src="safari_pushwoosh.js"></script>-->
 </body>
 </html>
