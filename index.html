@@ -1,17 +1,19 @@
 <html>
-<head>
-  <link href="app/components/picnic/releases/latest.min.css" rel="stylesheet" type="text/css">
-  <script src="app/components/react/react-with-addons.min.js" type="text/javascript"></script>
-</head>
-<body>
+  <head>
+    <link href="app/components/picnic/releases/latest.min.css" rel="stylesheet" type="text/css">
+    <script src="app/components/react/react-with-addons.min.js" type="text/javascript"></script>
+    <script src="app/components/react/JSXTransformer.js" type="text/javascript"></script>
+    <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.2-latest.js" type="text/javascript"></script>
+    <script src="env.js" type="text/javascript"></script>
+    <script src="zeropush.js" type="text/javascript"></script>
+    <script src="app.js" type="text/jsx"></script>
+  </head>
+  <body>
+    <button onclick="dropboxLogin();">dropbox login</button>
+    <div id="app"></div>
 
-<button onclick="dropboxLogin();">dropbox login</button>
-
-<script src="https://www.dropbox.com/static/api/dropbox-datastores-1.2-latest.js" type="text/javascript"></script>
-<script src="./env.js"></script>
-<script src="zeropush.js"></script>
 <script>
-(function () {
+/*(function () {
    var client = new Dropbox.Client({key: DROPBOX_APP_KEY});
    // Try to finish OAuth authorization.
    client.authenticate({interactive: false}, function (error) {
@@ -35,7 +37,7 @@
    window.dropboxLogin = function() {
      client.authenticate();
    };
-})();
+})();*/
 </script>
 
 <!--<button onclick="requestSafariPush();">zeropush</button>-->
