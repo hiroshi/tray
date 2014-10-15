@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "react": "~0.11.2",
-    "picnic": "*"
+    "picnic": "*",
+    "bacon": "~0.7.23"
   }
 }
