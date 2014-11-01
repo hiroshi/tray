@@ -78,7 +78,6 @@ var TrayStore = {
   },
 };
 
-
 var App = React.createClass({
   getInitialState: function() {
     return {
@@ -89,7 +88,6 @@ var App = React.createClass({
   componentWillMount: function() {
     var stream = TrayStore.streamItems();
     stream.onValue(function(items) {
-      console.log(items.length);
       this.setState({items: items, login: true});
     }.bind(this));
     stream.onError(function(error) {
@@ -125,7 +123,7 @@ var App = React.createClass({
 });
 
 
-React.renderComponent(
+React.render(
   <App />,
   document.getElementById('app')
 );
