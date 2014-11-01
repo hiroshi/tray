@@ -48,8 +48,12 @@ var TrayStore = {
       this._defaultDatastore().onValue(function(datastore) {
         var callbackItems = function() {
           var itemTable = datastore.getTable('items');
+          // Quick and dirty onetime migration
+          // itemTable.query().forEach(function(record) {
+          //   record.update({archived: false});
+          // });
           // Return initial items
-          var items = itemTable.query();
+          var items = itemTable.query({archived: false});
           callback(items.sort(function(a, b) {
             return b.get('orderDate') - a.get('orderDate');
           }));
@@ -73,10 +77,32 @@ var TrayStore = {
     .onValue(function(datastore) {
       var itemTable = datastore.getTable('items');
       var now = new Date();
-      itemTable.insert({text: text, createDate: now, orderDate: now});
+      itemTable.insert({
+        text: text,
+        archived: false,
+        createDate: now,
+        orderDate: now});
     });
   },
 };
+
+var Item = React.createClass({
+  propTypes: {
+    record: React.PropTypes.object.isRequired,
+  },
+  _handleArchive: function(e) {
+    this.props.record.update({archived: true});
+    //this.props.record.deleteRecord();
+  },
+  render: function() {
+    return (
+      <div className='item'>
+        <span>{this.props.record.get('text')}</span>
+        <button className="error" onClick={this._handleArchive}>Archive</button>
+      </div>
+    );
+  }
+});
 
 var App = React.createClass({
   getInitialState: function() {
@@ -103,7 +129,8 @@ var App = React.createClass({
   render: function() {
     if (this.state.login) {
       items = this.state.items.map(function(item) {
-        return <li key={item.getId()}>{item.get('text')}</li>;
+        //return <li key={item.getId()}>{item.get('text')}</li>;
+        return <li key={item.getId()}><Item record={item} /></li>;
       });
       return (
         <div>
