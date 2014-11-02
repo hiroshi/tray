@@ -72,7 +72,7 @@ var TrayStore = {
       }
     }.bind(this));
   },
-  addItem: function(text) {
+  addText: function(text) {
     this._defaultDatastore()
     .onValue(function(datastore) {
       var itemTable = datastore.getTable('items');
@@ -123,7 +123,7 @@ var App = React.createClass({
   _pushItem: function(e) {
     e.preventDefault();
     var text = this.refs.text.getDOMNode().value.trim();
-    TrayStore.addItem(text);
+    TrayStore.addText(text);
     this.refs.text.getDOMNode().value = "";
   },
   render: function() {
