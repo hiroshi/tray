@@ -89,6 +89,7 @@ var TrayStore = {
   },
 };
 
+
 var Item = React.createClass({
   propTypes: {
     record: React.PropTypes.object.isRequired,
@@ -97,9 +98,24 @@ var Item = React.createClass({
     TrayStore.archiveItem(this.props.record);
   },
   render: function() {
+    var text = this.props.record.get('text');
+    var re = /(^|\s)[^\s]+:[^\s]+(\s|$)/g;
+    var texts = [];
+    var last = 0;
+    while ((m = re.exec(text)) != null) {
+      // text between last match and this
+      if (last != m.index) {
+        texts.push(<span key={last}>{text.substring(last, m.index)}</span>);
+      }
+      // this match
+      texts.push(<a key={m.index} href={m[0]} target="_blank">{m[0]}</a>);
+      last = m.index + m[0].length;
+    }
+    // last part of text
+    texts.push(<span key={last}>{text.substring(last)}</span>);
     return (
       <div className='item'>
-        <span>{this.props.record.get('text')}</span>
+        {texts}
         <button className="error" onClick={this._handleArchive}>Archive</button>
       </div>
     );
