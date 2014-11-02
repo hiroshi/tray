@@ -84,6 +84,9 @@ var TrayStore = {
         orderDate: now});
     });
   },
+  archiveItem: function(record) {
+    record.update({archived: true});
+  },
 };
 
 var Item = React.createClass({
@@ -91,8 +94,7 @@ var Item = React.createClass({
     record: React.PropTypes.object.isRequired,
   },
   _handleArchive: function(e) {
-    this.props.record.update({archived: true});
-    //this.props.record.deleteRecord();
+    TrayStore.archiveItem(this.props.record);
   },
   render: function() {
     return (
