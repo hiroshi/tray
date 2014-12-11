@@ -28,3 +28,6 @@ Temporary, change TRAY_REGISTER_URL in env.js to local one.
 Manually add `<script>` or `<link>` tag to `index.html`.
 
     git add app/components
+
+### Update a bower package
+

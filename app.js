@@ -90,7 +90,7 @@ var TrayStore = {
 };
 
 
-var Item = React.createClass({
+var ItemPreview = React.createClass({
   propTypes: {
     record: React.PropTypes.object.isRequired,
   },
@@ -115,10 +115,56 @@ var Item = React.createClass({
     texts.push(<span key={last}>{text.substring(last)}</span>);
     return (
       <div className='item'>
-        {texts}
-        <button className="error" onClick={this._handleArchive}>Archive</button>
+        <div className="preview">
+          {texts}
+        </div>
+        <div>
+          <button onClick={this.props.startEdit}>Edit</button>
+          <button className="error" onClick={this._handleArchive}>Archive</button>
+        </div>
       </div>
     );
+  }
+});
+
+var ItemEdit = React.createClass({
+  _handleDone: function() {
+    var text = this.refs.text.getDOMNode().value.trim();
+    this.props.record.set('text', text);
+    this.props.endEdit();
+  },
+  render: function() {
+    return (
+      <div className="item">
+        <div>
+          <textarea ref='text' defaultValue={this.props.record.get('text')} />
+        </div>
+        <div>
+          <button onClick={this._handleDone}>Done</button>
+        </div>
+      </div>
+    );
+  }
+});
+
+var Item = React.createClass({
+  getInitialState: function() {
+    return {
+      editing: false
+    };
+  },
+  propTypes: {
+    record: React.PropTypes.object.isRequired,
+  },
+  _toggleEdit: function() {
+    this.setState({editing: !this.state.editing});
+  },
+  render: function() {
+    if (this.state.editing) {
+      return <ItemEdit record={this.props.record} endEdit={this._toggleEdit} />;
+    } else {
+      return <ItemPreview record={this.props.record} startEdit={this._toggleEdit} />;
+    }
   }
 });
 
@@ -151,14 +197,20 @@ var App = React.createClass({
         return <li key={item.getId()}><Item record={item} /></li>;
       });
       return (
-        <div>
-          <form onSubmit={this._pushItem}>
-            <textarea ref='text' />
-            <button type='sumbmit'>Push</button>
-          </form>
-          <ul>
-            {items}
-          </ul>
+        <div className="row">
+          <div className="full">
+            <form onSubmit={this._pushItem} className="item">
+              <div>
+                <textarea ref='text' />
+              </div>
+              <div>
+                <button type='sumbmit'>Push</button>
+              </div>
+            </form>
+            <ul className="items">
+              {items}
+            </ul>
+          </div>
         </div>
       );
     } else {

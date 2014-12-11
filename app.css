@@ -1,3 +1,24 @@
+#app {
+    margin: 8px;
+}
+ul.items {
+    list-style: none;
+    padding-left: 0;
+}
+ul.items li {
+    margin: -1px 0;
+}
+.item {
+    border: 1px solid lightgray;
+    padding: 4px;
+}
+.item .preview {
+    padding: .3em .65em;
+}
+.item textarea {
+    margin: 0;
+    width: 100%;
+}
 .item button {
     font-size: small;
 }
